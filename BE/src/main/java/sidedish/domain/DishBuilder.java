@@ -1,6 +1,10 @@
 package sidedish.domain;
 
 import org.springframework.data.relational.core.sql.In;
+import sidedish.domain.firstClassCollection.Badges;
+import sidedish.domain.firstClassCollection.DetailImages;
+import sidedish.domain.firstClassCollection.Prices;
+import sidedish.domain.firstClassCollection.ThumbImages;
 import sidedish.service.TypeConvertUtils;
 
 import java.util.List;
@@ -35,12 +39,12 @@ public class DishBuilder {
     }
 
     public DishBuilder setPrices(List<Integer> prices) {
-        this.prices = convertToPriceList(prices);
+        this.prices = new Prices(prices).getPrices();
         return this;
     }
 
     public DishBuilder setBadges(List<String> badges) {
-        this.badges = convertToBadgeList(badges);
+        this.badges = new Badges(badges).getBadges();
         return this;
     }
 
@@ -60,12 +64,12 @@ public class DishBuilder {
     }
 
     public DishBuilder setThumbImages(List<String> thumbImages) {
-        this.thumbImages = convertToThumbImageList(thumbImages);
+        this.thumbImages = new ThumbImages(thumbImages).getThumbImages();
         return this;
     }
 
     public DishBuilder setDetailImages(List<String> detailImages) {
-        this.detailImages = convertToDetailImageList(detailImages);
+        this.detailImages = new DetailImages(detailImages).getDetailImages();
         return this;
     }
 

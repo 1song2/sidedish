@@ -15,30 +15,6 @@ public class TypeConvertUtils {
     private TypeConvertUtils() {
     }
 
-    public static List<Price> convertToPriceList(List<Integer> prices) {
-        return prices.stream()
-                .map(Price::new)
-                .collect(Collectors.toList());
-    }
-
-    public static List<Badge> convertToBadgeList(List<String> badges) {
-        return badges.stream()
-                .map(Badge::new)
-                .collect(Collectors.toList());
-    }
-
-    public static List<ThumbImage> convertToThumbImageList(List<String> images) {
-        return images.stream()
-                .map(ThumbImage::new)
-                .collect(Collectors.toList());
-    }
-
-    public static List<DetailImage> convertToDetailImageList(List<String> images) {
-        return images.stream()
-                .map(DetailImage::new)
-                .collect(Collectors.toList());
-    }
-
     public static List<Integer> convertPriceList(List<Price> prices) {
         return prices.stream()
                 .map(Price::getPrice)
