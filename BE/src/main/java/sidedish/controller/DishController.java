@@ -19,9 +19,8 @@ public class DishController {
     }
 
     @GetMapping("/{title}/{id}")
-    public ResponseEntity<DetailDishDTO> detailPage(@PathVariable String title, @PathVariable Long id) {
-        DetailDishDTO detailDishDTO = dishService.createDetailDishDTO(title, id);
-        return ResponseEntity.ok(detailDishDTO);
+    public DetailDishDTO detailPage(@PathVariable String title, @PathVariable Long id) {
+        return dishService.createDetailDishDTO(title, id);
     }
 
     @PostMapping("/dish")
