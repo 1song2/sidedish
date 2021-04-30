@@ -7,21 +7,10 @@ import java.util.List;
 import java.util.Objects;
 
 @Table("DISH")
-public class Dish {
+public class Dish extends AbstractDish {
 
     @Id
     private Long id;
-
-    private String name;
-    private String topImage;
-    private String description;
-    private List<Price> prices;
-    private List<Badge> badges;
-    private Long stock;
-    private Integer point;
-    private String deliveryInfo;
-    private List<ThumbImage> thumbImages;
-    private List<DetailImage> detailImages;
 
     public Dish(String name, String topImage, String description, List<Price> prices, List<Badge> badges, Long stock, Integer point,
                 String deliveryInfo, List<ThumbImage> thumbImages, List<DetailImage> detailImages) {

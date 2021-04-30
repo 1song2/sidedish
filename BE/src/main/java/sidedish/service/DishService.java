@@ -24,21 +24,24 @@ public class DishService {
     }
 
     public Dish findById(Long id) {
-        Dish dish = dishRepository.findById(id).orElseThrow(DishNotFoundException::new);
-        return dish;
+        return dishRepository.findById(id).orElseThrow(DishNotFoundException::new);
     }
 
-    public DetailDishDTO createDetailDishDTO(String title, Long id) {
-        Category category = categoryRepository.findCategoryByTitle(title).orElseThrow(CategoryNotFoundException::new);
+    public DetailDishDTO toDetailDishDTO(String title, Long id) {
+        Category category = categoryRepository.findCategoryByTitle(title)
+                .orElseThrow(CategoryNotFoundException::new);
         Dish dish = findById(id);
+
         category.hasDish(dish);
         return new DetailDishDTO(dish);
     }
 
     public void saveDishes(List<RequestDishDTO> dishDTOs) {
         for (RequestDishDTO dishDTO : dishDTOs) {
-            Category category = categoryRepository.findById(dishDTO.getCategoryId()).orElseThrow(CategoryNotFoundException::new);
-            Dish dish = dishDTO.createDish();
+            Category category = categoryRepository.findById(dishDTO.getCategoryId())
+                    .orElseThrow(CategoryNotFoundException::new);
+            Dish dish = dishDTO.toDish();
+
             category.addDish(dish);
             categoryRepository.save(category);
         }

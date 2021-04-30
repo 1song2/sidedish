@@ -27,7 +27,7 @@ public class CategoryService {
         return category;
     }
 
-    public CategoryDTO createCategoryDTO(String title) {
+    public CategoryDTO toCategoryDTO(String title) {
         Category category = findByTitle(title);
         categoryRepository.save(category);
         return new CategoryDTO(category);

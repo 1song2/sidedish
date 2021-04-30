@@ -1,6 +1,5 @@
 package sidedish.controller;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sidedish.service.DishService;
 import sidedish.service.dto.DetailDishDTO;
@@ -20,7 +19,7 @@ public class DishController {
 
     @GetMapping("/{title}/{id}")
     public DetailDishDTO detailPage(@PathVariable String title, @PathVariable Long id) {
-        return dishService.createDetailDishDTO(title, id);
+        return dishService.toDetailDishDTO(title, id);
     }
 
     @PostMapping("/dish")

@@ -36,8 +36,9 @@ public class Category {
     }
 
     public boolean hasDish(Dish dish) {
-       if(!dishes.contains(dish)) {
-           throw new DishNotFoundException();
-       } return true;
+        if (!dishes.contains(dish)) {
+            throw new DishNotFoundException();
+        }
+        return true;
     }
 }

@@ -6,14 +6,8 @@ import sidedish.domain.DishBuilder;
 
 import java.util.List;
 
-public class RequestDishDTO {
+public class RequestDishDTO extends AbstractDishDTO {
 
-    private Long id;
-    private String name;
-    private String topImage;
-    private String description;
-    private List<Integer> prices;
-    private List<String> badges;
     private Long stock;
     private Integer point;
     private String deliveryInfo;
@@ -28,12 +22,7 @@ public class RequestDishDTO {
 
     public RequestDishDTO(Long id, String name, String topImage, String description, List<Integer> prices, List<String> badges,
                           Long stock, Integer point, String deliveryInfo, List<String> thumbImages, List<String> detailImages, Long categoryId) {
-        this.id = id;
-        this.name = name;
-        this.topImage = topImage;
-        this.description = description;
-        this.prices = prices;
-        this.badges = badges;
+        super(id, name, topImage, description, prices, badges);
         this.stock = stock;
         this.point = point;
         this.deliveryInfo = deliveryInfo;
@@ -42,7 +31,7 @@ public class RequestDishDTO {
         this.categoryId = categoryId;
     }
 
-    public Dish createDish() {
+    public Dish toDish() {
         DishBuilder dishBuilder = new DishBuilder();
         Dish dish = dishBuilder.setName(name)
                 .setTopImage(topImage)
@@ -56,30 +45,6 @@ public class RequestDishDTO {
                 .setDetailImages(detailImages)
                 .build();
         return dish;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getTopImage() {
-        return topImage;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public List<Integer> getPrices() {
-        return prices;
-    }
-
-    public List<String> getBadges() {
-        return badges;
     }
 
     public Long getStock() {

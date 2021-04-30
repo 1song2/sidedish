@@ -1,27 +1,14 @@
 package sidedish.domain;
 
-import org.springframework.data.relational.core.sql.In;
 import sidedish.domain.firstClassCollection.Badges;
 import sidedish.domain.firstClassCollection.DetailImages;
 import sidedish.domain.firstClassCollection.Prices;
 import sidedish.domain.firstClassCollection.ThumbImages;
-import sidedish.service.TypeConvertUtils;
 
 import java.util.List;
 
-import static sidedish.service.TypeConvertUtils.*;
 
-public class DishBuilder {
-    private String name;
-    private String topImage;
-    private String description;
-    private List<Price> prices;
-    private List<Badge> badges;
-    private Long stock;
-    private Integer point;
-    private String deliveryInfo;
-    private List<ThumbImage> thumbImages;
-    private List<DetailImage> detailImages;
+public class DishBuilder extends AbstractDish {
 
     public DishBuilder setName(String name) {
         this.name = name;
