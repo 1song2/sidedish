@@ -9,7 +9,6 @@ import UIKit
 import Alamofire
 
 class DishCell: UICollectionViewCell {
-    
     @IBOutlet weak var thumbnailImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!

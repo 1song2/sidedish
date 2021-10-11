@@ -39,7 +39,7 @@ class MainPageViewController: UIViewController {
                                            SideCategory(sectionIndex: 2)]
         viewModels = categories.map { category in
             makeDishesViewModel(category: category)
-        }                
+        }
         
         mainPageDataSource?.viewModels = viewModels
         mainPageDelegate?.viewModels = viewModels
@@ -49,8 +49,8 @@ class MainPageViewController: UIViewController {
         
         viewModels.forEach { viewModel in
             bind(to: viewModel)
-            viewModel.load()            
-        }            
+            viewModel.load()
+        }
         
         //App에 저장된 RealmDB파일의 위치를 알 수 있는 함수.
         //print(Realm.Configuration.defaultConfiguration.fileURL!)
