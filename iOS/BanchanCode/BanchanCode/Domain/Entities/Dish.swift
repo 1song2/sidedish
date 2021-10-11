@@ -8,12 +8,13 @@
 import Foundation
 
 struct Dish{
-    let id: Int
-    let name: String
-    let description: String
+    let hash: String
     let imageURL: String
-    let prices: [Int]
-    let badges: [String]
+    let title: String
+    let description: String
+    let originalPrice: String?
+    let lastPrice: String
+    let badges: [String]?
 }
 
 struct Dishes {

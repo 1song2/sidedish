@@ -9,7 +9,6 @@ import UIKit
 import Alamofire
 
 class DishCell: UICollectionViewCell {
-    
     @IBOutlet weak var thumbnailImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
@@ -28,12 +27,12 @@ class DishCell: UICollectionViewCell {
     
     func fill(with viewModel: DishesItemViewModel) {
         let dish = viewModel.dish
-        nameLabel.text = dish.name
+        nameLabel.text = dish.title
         descriptionLabel.text = dish.description
         
-        lastPriceLabel.text = String().format(price: viewModel.lastPrice)
-        if let originalPrice = viewModel.originalPrice {
-            originalPriceLabel.attributedText = String().format(price: originalPrice)?.strikethrough()
+        lastPriceLabel.text = dish.lastPrice
+        if let originalPrice = dish.originalPrice {
+            originalPriceLabel.attributedText = originalPrice.strikethrough()
             originalPriceLabel.isHidden = false
         } else {
             originalPriceLabel.isHidden = true
@@ -43,9 +42,7 @@ class DishCell: UICollectionViewCell {
         badgeStackView.arrangedSubviews.forEach { subview in
             subview.removeFromSuperview()
         }
-        if badges.count == 0 {
-            badgeStackView.isHidden = true
-        } else {
+        if let badges = badges {
             badgeStackView.isHidden = false
             badges.forEach { badgeString in
                 let badgeView = BadgeView()
@@ -53,6 +50,8 @@ class DishCell: UICollectionViewCell {
                 badgeView.backgroundColor = badgeString == "이벤트특가" ? #colorLiteral(red: 0.5098039216, green: 0.8274509804, blue: 0.1764705882, alpha: 1) : #colorLiteral(red: 0.5254901961, green: 0.7764705882, blue: 1, alpha: 1)
                 badgeStackView.addArrangedSubview(badgeView)
             }
+        } else {
+            badgeStackView.isHidden = true
         }
     }
     

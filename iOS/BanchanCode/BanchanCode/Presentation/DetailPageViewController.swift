@@ -29,8 +29,7 @@ class DetailPageViewController: UIViewController {
     @IBOutlet weak var orderButton: UIButton!
     @IBOutlet weak var detailImagesStackView: UIStackView!
     
-    var categoryName: String?
-    var id: Int?
+    var dish: Dish?
     var viewModel: DishDetailsViewModel!
     
     override func viewDidLoad() {
@@ -44,11 +43,8 @@ class DetailPageViewController: UIViewController {
     }
     
     func makeDishDetailsViewModel() -> DishDetailsViewModel? {
-        guard let categoryName = categoryName else { return nil }
-        guard let id = id else { return nil }
-        return DefaultDishDetailsViewModel(fetchDishDetailsUseCaseFactory: makeFetchDishDetailsUseCase,
-                                           categoryName: categoryName,
-                                           id: id)
+        guard let dish = dish else { return nil }
+        return DefaultDishDetailsViewModel(fetchDishDetailsUseCaseFactory: makeFetchDishDetailsUseCase, dish: dish)
     }
     
     func makeFetchDishDetailsUseCase(requestValue: FetchDishDetailsUseCase.RequestValue,
@@ -81,7 +77,11 @@ class DetailPageViewController: UIViewController {
     }
     
     private func bind(to viewModel: DishDetailsViewModel) {
-        viewModel.basicInformation.observe(on: self) { [weak self] _ in self?.refreshView() }
+        viewModel.additionalInformation.observe(on: self) { [weak self] _ in
+            DispatchQueue.main.async {
+                self?.refreshView()
+            }
+        }
         viewModel.thumbImages.observe(on: self) { [weak self] _ in self?.refreshThumbImages() }
         viewModel.detailImages.observe(on: self) { [weak self] _ in self?.refreshDetailImages() }
         viewModel.currentQuantity.observe(on: self) { [weak self] in
@@ -89,26 +89,25 @@ class DetailPageViewController: UIViewController {
             self?.viewModel.updateTotalPrice()
         }
         viewModel.totalPrice.observe(on: self) { [weak self] in
-            self?.totalPriceLabel.text = String().format(price: $0)
-            self?.removeButton.isEnabled = $0 > 0
+            self?.updateTotalPrice(with: $0)
         }
     }
     
     private func refreshView() {
-        let basicInfo = viewModel.basicInformation.value
-        self.title = basicInfo.name
-        self.nameLabel.text = basicInfo.name
-        self.descriptionLabel.text = basicInfo.description
+        let additionalInformation = viewModel.additionalInformation.value
+        self.title = viewModel.title
+        self.nameLabel.text = viewModel.title
+        self.descriptionLabel.text = viewModel.description
         
-        lastPriceLabel.text = String().format(price: viewModel.lastPrice)
+        lastPriceLabel.text = viewModel.lastPrice
         if let originalPrice = viewModel.originalPrice {
-            originalPriceLabel.attributedText = String().format(price: originalPrice)?.strikethrough()
+            originalPriceLabel.attributedText = originalPrice.strikethrough()
             originalPriceLabel.isHidden = false
         } else {
             originalPriceLabel.isHidden = true
         }
         
-        let badges = basicInfo.badges
+        let badges = viewModel.badges
         badgeStackView.arrangedSubviews.forEach { subview in
             subview.removeFromSuperview()
         }
@@ -123,8 +122,8 @@ class DetailPageViewController: UIViewController {
                 badgeStackView.addArrangedSubview(badgeView)
             }
         }
-        pointLabel.text = String().format(price: basicInfo.point)
-        deliveryInfoLabel.text = basicInfo.deliveryInfo
+        pointLabel.text = additionalInformation.point
+        deliveryInfoLabel.text = additionalInformation.deliveryMethod
         deliveryFeeLabel.attributedText = NSAttributedString().makeBold("(40,000원 이상 구매 시 무료)",
                                                                         within: "2,500원 (40,000원 이상 구매 시 무료)",
                                                                         font: .systemFont(ofSize: 14.0))
@@ -158,5 +157,10 @@ class DetailPageViewController: UIViewController {
             imageView.translatesAutoresizingMaskIntoConstraints = false
             imageView.heightAnchor.constraint(equalToConstant: ratio * self.view.frame.width).isActive = true
         }
+    }
+    
+    private func updateTotalPrice(with price: Int) {
+        totalPriceLabel.text = "\(price)원"
+        removeButton.isEnabled = price > 0
     }
 }

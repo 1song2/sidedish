@@ -9,42 +9,40 @@ import Foundation
 
 struct DishDetailResponseDTO: Decodable {
     private enum CodingKeys: String, CodingKey {
-        case id
-        case name
-        case description
-        case prices
-        case badges
-        case stock
-        case point
-        case deliveryInfo = "delivery_info"
-        case thumbImages = "thumb_images"
-        case detailImages = "detail_images"
+        case data
     }
-    let id: Int
-    let name: String
-    let description: String
-    let prices: [Int]
-    let badges: [String]
-    let stock: Int
-    let point: Int
-    let deliveryInfo: String
-    let thumbImages: [String]
-    let detailImages: [String]
+    let data: AdditionalInformationDTO
+}
+
+extension DishDetailResponseDTO {
+    struct AdditionalInformationDTO: Decodable {
+        private enum CodingKeys: String, CodingKey {
+            case thumbImages = "thumb_images"
+            case point
+            case deliveryMethod = "delivery_info"
+            case deliveryFee = "delivery_fee"
+            case detailImages = "detail_section"
+        }
+        let thumbImages: [String]
+        let point: String
+        let deliveryMethod: String
+        let deliveryFee: String
+        let detailImages: [String]
+    }
 }
 
 extension DishDetailResponseDTO {
     func toDomain() -> DishDetail {
-        return .init(basicInformation: BasicInformation(
-            id: id,
-            name: name,
-            description: description,
-            prices: prices,
-            badges: badges,
-            stock: stock,
-            point: point,
-            deliveryInfo: deliveryInfo
-        ),
-        thumbImages: thumbImages,
-        detailImages: detailImages)
+        return .init(additionalInformation: data.toDomain())
+    }
+}
+
+extension DishDetailResponseDTO.AdditionalInformationDTO {
+    func toDomain() -> AdditionalInformation {
+        return .init(thumbImages: thumbImages,
+                     point: point,
+                     deliveryMethod: deliveryMethod,
+                     deliveryFee: deliveryFee,
+                     detailImages: detailImages)
     }
 }
