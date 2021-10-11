@@ -8,48 +8,25 @@
 import Foundation
 
 struct DishDetail {
-    let basicInformation: BasicInformation
-    let thumbImages: [String]?
-    let detailImages: [String]?
-    
-    init(basicInformation: BasicInformation,
-         thumbImages: [String]?,
-         detailImages: [String]?) {
-        self.basicInformation = basicInformation
-        self.thumbImages = thumbImages
-        self.detailImages = detailImages
-    }
+    let additionalInformation: AdditionalInformation
 }
 
-struct BasicInformation {
-    let id: Int
-    let name: String?
-    let description: String?
-    let prices: [Int]?
-    let badges: [String]?
-    let stock: Int?
-    let point: Int?
-    let deliveryInfo: String?
+struct AdditionalInformation {
+    let thumbImages: [String]?
+    let point: String?
+    let deliveryMethod: String?
+    let deliveryFee: String?
+    let detailImages: [String]?
     
-    init(id: Int,
-         name: String?,
-         description: String?,
-         prices: [Int]?,
-         badges: [String]?,
-         stock: Int?,
-         point: Int?,
-         deliveryInfo: String?) {
-        self.id = id
-        self.name = name
-        self.description = description
-        self.prices = prices
-        self.badges = badges
-        self.stock = stock
+    init(thumbImages: [String]? = nil,
+         point: String? = nil,
+         deliveryMethod: String? = nil,
+         deliveryFee: String? = nil,
+         detailImages: [String]? = nil) {
+        self.thumbImages = thumbImages
         self.point = point
-        self.deliveryInfo = deliveryInfo
-    }
-    
-    init(id: Int) {
-        self.init(id: id, name: nil, description: nil, prices: nil, badges: nil, stock: nil, point: nil, deliveryInfo: nil)
+        self.deliveryMethod = deliveryMethod
+        self.deliveryFee = deliveryFee
+        self.detailImages = detailImages
     }
 }

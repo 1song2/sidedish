@@ -10,8 +10,7 @@ import Foundation
 final class FetchDishDetailsUseCase: UseCase {
     let networkManager = NetworkManager()
     struct RequestValue {
-        let categoryName: String
-        let id: Int
+        let hash: String
     }
     typealias ResultValue = (Result<DishDetail, Error>)
     
@@ -25,7 +24,7 @@ final class FetchDishDetailsUseCase: UseCase {
     }
     
     func start() {
-        fetchDishDetails(categoryName: requestValue.categoryName, id: requestValue.id, completion: completion)
+        fetchDishDetails(hash: requestValue.hash, completion: completion)
     }
     
     private func fetchDishDetails(hash: String, completion: @escaping (ResultValue) -> Void) {

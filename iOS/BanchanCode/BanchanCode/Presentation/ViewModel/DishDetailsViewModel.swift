@@ -15,9 +15,16 @@ protocol DishDetailsViewModelInput {
 }
 
 protocol DishDetailsViewModelOutput {
-    var basicInformation: Observable<BasicInformation> { get }
-    var lastPrice: Int { get }
-    var originalPrice: Int? { get }
+    var detailHash: String { get }
+    var topImage: Observable<Data?> { get }
+    var title: String { get }
+    var description: String { get }
+    var originalPrice: String? { get }
+    var lastPrice: String { get }
+    var badges: [String]? { get }
+    
+    var additionalInformation: Observable<AdditionalInformation> { get }
+    
     var thumbImages: Observable<[Data]> { get }
     var detailImages: Observable<[Data]> { get }
     var currentQuantity: Observable<Int> { get }
@@ -32,30 +39,39 @@ typealias FetchDishDetailsUseCaseFactory = (
 ) -> UseCase
 
 final class DefaultDishDetailsViewModel: DishDetailsViewModel {
-    
     private let fetchDishDetailsUseCaseFactory: FetchDishDetailsUseCaseFactory
-    private let categoryName: String
-    private let id: Int
+    private var topImagePath: String?
     private var thumbImagePaths: [String] = []
     private var detailImagePaths: [String] = []
     private let networkManager: NetworkManager = NetworkManager()
     
     //MARK: - Output
-    var basicInformation: Observable<BasicInformation>
-    var lastPrice: Int = 0
-    var originalPrice: Int? = nil
+    let detailHash: String
+    let topImage: Observable<Data?> = Observable(nil)
+    let title: String
+    let description: String
+    let originalPrice: String?
+    let lastPrice: String
+    let badges: [String]?
     var thumbImages: Observable<[Data]> = Observable([])
     var detailImages: Observable<[Data]> = Observable([])
+    
+    var additionalInformation: Observable<AdditionalInformation>
     var currentQuantity: Observable<Int> = Observable(1)
     var totalPrice: Observable<Int> = Observable(0)
     
     init(fetchDishDetailsUseCaseFactory: @escaping FetchDishDetailsUseCaseFactory,
-         categoryName: String,
-         id: Int) {
+         dish: Dish) {
         self.fetchDishDetailsUseCaseFactory = fetchDishDetailsUseCaseFactory
-        self.categoryName = categoryName
-        self.id = id
-        self.basicInformation = Observable(BasicInformation(id: id))
+        self.detailHash = dish.hash
+        self.topImagePath = dish.imageURL
+        self.title = dish.title
+        self.description = dish.description
+        self.originalPrice = dish.originalPrice
+        self.lastPrice = dish.lastPrice
+        self.badges = dish.badges
+        
+        self.additionalInformation = Observable(AdditionalInformation())
     }
     
     private func getOriginalPrice(from prices: [Int]) -> Int? {
@@ -82,17 +98,14 @@ final class DefaultDishDetailsViewModel: DishDetailsViewModel {
 //MARK: - Input
 extension DefaultDishDetailsViewModel {
     func load() {
-        let request = FetchDishDetailsUseCase.RequestValue(categoryName: categoryName, id: id)
+        let request = FetchDishDetailsUseCase.RequestValue(hash: detailHash)
         let completion: (FetchDishDetailsUseCase.ResultValue) -> Void = { result in
             switch result {
             case .success(let dishDetail):
-                self.basicInformation.value = dishDetail.basicInformation
-                guard let prices = dishDetail.basicInformation.prices else { return }
-                self.lastPrice = prices.last ?? 0
-                self.originalPrice = self.getOriginalPrice(from: prices)
+                self.additionalInformation.value = dishDetail.additionalInformation
                 self.updateTotalPrice()
-                guard let thumbImagePaths = dishDetail.thumbImages else { return }
-                guard let detailImagePaths = dishDetail.detailImages else { return }
+                guard let thumbImagePaths = dishDetail.additionalInformation.thumbImages else { return }
+                guard let detailImagePaths = dishDetail.additionalInformation.detailImages else { return }
                 self.thumbImagePaths = thumbImagePaths
                 self.detailImagePaths = detailImagePaths
                 self.updateThumbnailImages()
@@ -113,6 +126,6 @@ extension DefaultDishDetailsViewModel {
     }
     
     func updateTotalPrice() {
-        totalPrice.value = currentQuantity.value * lastPrice
+        totalPrice.value = currentQuantity.value * (Int(lastPrice) ?? 0)
     }
 }

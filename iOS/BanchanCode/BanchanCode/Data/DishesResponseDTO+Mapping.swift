@@ -9,45 +9,49 @@ import Foundation
 
 struct DishesResponseDTO: Decodable {
     private enum CodingKeys: String, CodingKey {
-        case category = "title"
-        case dishes
+        case dishes = "body"
     }
-    let category: String
-    let dishes: [DishDTO]    
+    let dishes: [DishDTO]
 }
 
 extension DishesResponseDTO {
     struct DishDTO: Decodable {
         private enum CodingKeys: String, CodingKey {
-            case id
-            case name
+            case hash = "detail_hash"
+            case imageURL = "image"
+            case deliveryMethod = "delivery_type"
+            case title
             case description
-            case topImage = "top_image"
-            case prices
-            case badges
+            case originalPrice = "n_price"
+            case lastPrice = "s_price"
+            case badges = "badge"
         }
-        let id: Int
-        let name: String
+        let hash: String
+        let imageURL: String
+        let deliveryMethod: [String]
+        let title: String
         let description: String
-        let topImage: String
-        let prices: [Int]
-        let badges: [String]
+        let originalPrice: String?
+        let lastPrice: String
+        let badges: [String]?
     }
 }
 
 extension DishesResponseDTO {
     func toDomain() -> Dishes {
-        return .init(category: nil, dishes: dishes.map { $0.toDomain() })
+        return .init(category: nil,
+                     dishes: dishes.map { $0.toDomain() })
     }
 }
 
 extension DishesResponseDTO.DishDTO {
     func toDomain() -> Dish {
-        return .init(id: id,
-                     name: name,
+        return .init(hash: hash,
+                     imageURL: imageURL,
+                     title: title,
                      description: description,
-                     imageURL: topImage,
-                     prices: prices,
+                     originalPrice: originalPrice,
+                     lastPrice: lastPrice,
                      badges: badges)
     }
 }

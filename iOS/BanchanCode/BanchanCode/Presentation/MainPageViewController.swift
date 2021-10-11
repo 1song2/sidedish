@@ -93,11 +93,10 @@ class MainPageViewController: UIViewController {
         //}
     }
     
-    private func goToDishDetail(categoryName: String, dish: Dish) {
+    private func goToDishDetail(dish: Dish) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let detailPageVC = storyboard.instantiateViewController(identifier: "detailPageVC") as DetailPageViewController
-        detailPageVC.categoryName = categoryName
-        detailPageVC.id = dish.id
+        detailPageVC.dish = dish
         navigationController?.pushViewController(detailPageVC, animated: true)
     }
 }
