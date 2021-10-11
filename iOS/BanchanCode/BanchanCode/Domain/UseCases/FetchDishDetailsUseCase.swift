@@ -28,9 +28,8 @@ final class FetchDishDetailsUseCase: UseCase {
         fetchDishDetails(categoryName: requestValue.categoryName, id: requestValue.id, completion: completion)
     }
     
-    private func fetchDishDetails(categoryName: String, id: Int, completion: @escaping (ResultValue) -> Void) {
-        //let url = "http://ec2-3-36-241-44.ap-northeast-2.compute.amazonaws.com:8080/banchan-code/\(categoryName)/\(id)"
-        let url = "https://79129275-12cd-405a-80a6-677b968b1977.mock.pstmn.io/banchan-code/main/1"
+    private func fetchDishDetails(hash: String, completion: @escaping (ResultValue) -> Void) {
+        let url = "https://h3rb9c0ugl.execute-api.ap-northeast-2.amazonaws.com/develop/baminchan/detail/\(hash)"
         
         networkManager.performRequest(urlString: url) { (result: Result<DishDetailResponseDTO, Error>) in
             switch result {
