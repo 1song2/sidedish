@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Alamofire
 
 protocol FetchDishesUseCase {
     func execute(requestValue: FetchDishesUseCaseRequestValue,
@@ -13,7 +14,10 @@ protocol FetchDishesUseCase {
 }
 
 final class DefaultFetchDishesUseCase: FetchDishesUseCase {
-    let networkManager = NetworkManager()
+    lazy var appConfiguration = AppConfiguration()
+    lazy var config = ApiDataNetworkConfig(baseURL: URL(string: appConfiguration.apiBaseURL)!)
+    lazy var concurrentQueue = DispatchQueue(label: "com.song.decodeQueue", attributes: .concurrent)
+    lazy var networkService = DefaultNetworkService(config: config, session: AF, queue: concurrentQueue)
     //let realmManager = RealmManager()
     
     func execute(requestValue: FetchDishesUseCaseRequestValue,
@@ -33,7 +37,7 @@ final class DefaultFetchDishesUseCase: FetchDishesUseCase {
                              completion: @escaping (Result<Dishes, Error>) -> Void) {
         let url = "https://h3rb9c0ugl.execute-api.ap-northeast-2.amazonaws.com/develop/baminchan/\(categoryName)"
         
-        networkManager.performRequest(urlString: url) { (result : Result<DishesResponseDTO, Error>) in 
+        networkService.request(with: url) { (result : Result<DishesResponseDTO, Error>) in 
             switch result {
             case .success(let responseDTO):
                 completion(.success(responseDTO.toDomain()))

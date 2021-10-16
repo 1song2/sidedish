@@ -6,9 +6,14 @@
 //
 
 import Foundation
+import Alamofire
 
 final class FetchDishDetailsUseCase: UseCase {
-    let networkManager = NetworkManager()
+    lazy var appConfiguration = AppConfiguration()
+    lazy var config = ApiDataNetworkConfig(baseURL: URL(string: appConfiguration.apiBaseURL)!)
+    lazy var concurrentQueue = DispatchQueue(label: "com.song.decodeQueue", attributes: .concurrent)
+    lazy var networkService = DefaultNetworkService(config: config, session: AF, queue: concurrentQueue)
+    
     struct RequestValue {
         let hash: String
     }
@@ -30,7 +35,7 @@ final class FetchDishDetailsUseCase: UseCase {
     private func fetchDishDetails(hash: String, completion: @escaping (ResultValue) -> Void) {
         let url = "https://h3rb9c0ugl.execute-api.ap-northeast-2.amazonaws.com/develop/baminchan/detail/\(hash)"
         
-        networkManager.performRequest(urlString: url) { (result: Result<DishDetailResponseDTO, Error>) in
+        networkService.request(with: url) { (result: Result<DishDetailResponseDTO, Error>) in
             switch result {
             case .success(let responseDTO):
                 completion(.success(responseDTO.toDomain()))
