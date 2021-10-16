@@ -15,7 +15,7 @@ class SectionHeaderView: UICollectionReusableView {
     @IBOutlet weak var sectionContentLabel: UILabel!
     
     static let reuseIdentifier = String(describing: SectionHeaderView.self)
-    var countOfMenus: Int = 0
+    var numberOfItems: Int = 0
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -23,9 +23,8 @@ class SectionHeaderView: UICollectionReusableView {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        self.sectionContentLabel.text = "\(countOfMenus)개 상품이 등록되어 있습니다"
-        Toast(text: "\(countOfMenus)개 상품이 등록되어 있습니다").show()
+        self.sectionContentLabel.text = "\(numberOfItems)개 상품이 등록되어 있습니다"
+        Toast(text: "\(numberOfItems)개 상품이 등록되어 있습니다").show()
         UIView.animate(withDuration: 0.5) {
             self.sectionContentLabel.isHidden = !self.sectionContentLabel.isHidden
             self.layoutIfNeeded()
