@@ -10,8 +10,12 @@
 		3AEE683CE5F993D34971EA56 /* Pods_BanchanCode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A70AC7AD26FA53C9043FE8C /* Pods_BanchanCode.framework */; };
 		7423CC1138A1A5038744DD77 /* Pods_BanchanCode_BanchanCodeUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DAB3103484C10BEB1E593DC /* Pods_BanchanCode_BanchanCodeUITests.framework */; };
 		A25F0ADF39C821B9C0905711 /* Pods_BanchanCodeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9620CD78B3676D347046E4C1 /* Pods_BanchanCodeTests.framework */; };
+		E44CB5C027141D05004C2ED5 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44CB5BF27141D05004C2ED5 /* Endpoint.swift */; };
+		E44CB5C227142121004C2ED5 /* NetworkConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44CB5C127142121004C2ED5 /* NetworkConfig.swift */; };
+		E44CB5C427142254004C2ED5 /* APIEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44CB5C327142254004C2ED5 /* APIEndpoints.swift */; };
+		E44CB5C827144DE9004C2ED5 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44CB5C727144DE9004C2ED5 /* NetworkService.swift */; };
+		E45652AC271A8A2600E5D9A1 /* AppConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45652AB271A8A2600E5D9A1 /* AppConfigurations.swift */; };
 		E46342EA2631199B0001D87A /* DishesResponseDTO+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46342E92631199B0001D87A /* DishesResponseDTO+Mapping.swift */; };
-		E463431E263155C00001D87A /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E463431D263155C00001D87A /* NetworkManager.swift */; };
 		E463432D263178E10001D87A /* String+StrikeThrough.swift in Sources */ = {isa = PBXBuildFile; fileRef = E463432C263178E10001D87A /* String+StrikeThrough.swift */; };
 		E49F172F2638CF39006C2108 /* DetailPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E49F172E2638CF39006C2108 /* DetailPageViewController.swift */; };
 		E49F173526390170006C2108 /* DishDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = E49F173426390170006C2108 /* DishDetail.swift */; };
@@ -72,8 +76,12 @@
 		CF72F038069760B986DCD193 /* Pods-BanchanCode-BanchanCodeUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BanchanCode-BanchanCodeUITests.debug.xcconfig"; path = "Target Support Files/Pods-BanchanCode-BanchanCodeUITests/Pods-BanchanCode-BanchanCodeUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		DE03188D48C619947090424E /* Pods-BanchanCodeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BanchanCodeTests.release.xcconfig"; path = "Target Support Files/Pods-BanchanCodeTests/Pods-BanchanCodeTests.release.xcconfig"; sourceTree = "<group>"; };
 		E01634C4D66E2B7A6151C644 /* Pods-BanchanCode.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BanchanCode.release.xcconfig"; path = "Target Support Files/Pods-BanchanCode/Pods-BanchanCode.release.xcconfig"; sourceTree = "<group>"; };
+		E44CB5BF27141D05004C2ED5 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
+		E44CB5C127142121004C2ED5 /* NetworkConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConfig.swift; sourceTree = "<group>"; };
+		E44CB5C327142254004C2ED5 /* APIEndpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndpoints.swift; sourceTree = "<group>"; };
+		E44CB5C727144DE9004C2ED5 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		E45652AB271A8A2600E5D9A1 /* AppConfigurations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfigurations.swift; sourceTree = "<group>"; };
 		E46342E92631199B0001D87A /* DishesResponseDTO+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DishesResponseDTO+Mapping.swift"; sourceTree = "<group>"; };
-		E463431D263155C00001D87A /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		E463432C263178E10001D87A /* String+StrikeThrough.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+StrikeThrough.swift"; sourceTree = "<group>"; };
 		E49F172E2638CF39006C2108 /* DetailPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPageViewController.swift; sourceTree = "<group>"; };
 		E49F173426390170006C2108 /* DishDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishDetail.swift; sourceTree = "<group>"; };
@@ -164,9 +172,18 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		E45652A1271A7CDF00E5D9A1 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				E44CB5C327142254004C2ED5 /* APIEndpoints.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		E46342EE2631199F0001D87A /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				E45652A1271A7CDF00E5D9A1 /* Network */,
 				FA74E4AE263879E100F1CC7B /* PersistentStorage */,
 				E46342E92631199B0001D87A /* DishesResponseDTO+Mapping.swift */,
 				E49F173626390185006C2108 /* DishDetailResponseDTO.swift */,
@@ -221,6 +238,7 @@
 			children = (
 				FA88E9DE262E7F50001C3E53 /* AppDelegate.swift */,
 				FA88E9E0262E7F50001C3E53 /* SceneDelegate.swift */,
+				E45652AB271A8A2600E5D9A1 /* AppConfigurations.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -265,7 +283,9 @@
 		E4FC9CC52630104600BEAAE4 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				E463431D263155C00001D87A /* NetworkManager.swift */,
+				E44CB5C727144DE9004C2ED5 /* NetworkService.swift */,
+				E44CB5BF27141D05004C2ED5 /* Endpoint.swift */,
+				E44CB5C127142121004C2ED5 /* NetworkConfig.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -596,6 +616,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E4D5D83C2632ED5C0077DF97 /* Observable.swift in Sources */,
+				E44CB5C027141D05004C2ED5 /* Endpoint.swift in Sources */,
 				E4FC9C7F262E9ED800BEAAE4 /* MainPageCollectionViewDataSource.swift in Sources */,
 				E49F172F2638CF39006C2108 /* DetailPageViewController.swift in Sources */,
 				E4E3BF4B26354F6E0041BA5B /* FetchDishesUseCase.swift in Sources */,
@@ -605,14 +626,15 @@
 				E49F173D26393964006C2108 /* FetchDishDetailsUseCase.swift in Sources */,
 				FA88E9E3262E7F50001C3E53 /* MainPageViewController.swift in Sources */,
 				FA74E4BE2638880A00F1CC7B /* RealmManager.swift in Sources */,
-				E463431E263155C00001D87A /* NetworkManager.swift in Sources */,
 				E4B254A526397CEF00F522A6 /* DishDetailsViewModel.swift in Sources */,
 				E4FC9C79262E9E5800BEAAE4 /* MainPageCollectionViewDelegate.swift in Sources */,
+				E44CB5C227142121004C2ED5 /* NetworkConfig.swift in Sources */,
 				E4D5D8342632ECFF0077DF97 /* DishesViewModel.swift in Sources */,
 				E49F173726390185006C2108 /* DishDetailResponseDTO.swift in Sources */,
 				E4E3BF682636A53A0041BA5B /* Categorizable.swift in Sources */,
 				FA864A792630030600A3C429 /* SectionHeaderView.swift in Sources */,
 				E463432D263178E10001D87A /* String+StrikeThrough.swift in Sources */,
+				E44CB5C427142254004C2ED5 /* APIEndpoints.swift in Sources */,
 				E46342EA2631199B0001D87A /* DishesResponseDTO+Mapping.swift in Sources */,
 				FA88E9DF262E7F50001C3E53 /* AppDelegate.swift in Sources */,
 				FA74E4B6263880B100F1CC7B /* DishDB.swift in Sources */,
@@ -620,6 +642,8 @@
 				E4FC9C8E262EA2E000BEAAE4 /* DishCell.swift in Sources */,
 				E49F173526390170006C2108 /* DishDetail.swift in Sources */,
 				E4BD2E71263ACC54008E9404 /* BadgeView.swift in Sources */,
+				E44CB5C827144DE9004C2ED5 /* NetworkService.swift in Sources */,
+				E45652AC271A8A2600E5D9A1 /* AppConfigurations.swift in Sources */,
 				FA88E9E1262E7F50001C3E53 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -679,6 +703,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				API_BASE_URL = "https://h3rb9c0ugl.execute-api.ap-northeast-2.amazonaws.com/develop/baminchan";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -740,6 +765,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				API_BASE_URL = "https://h3rb9c0ugl.execute-api.ap-northeast-2.amazonaws.com/develop/baminchan";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
