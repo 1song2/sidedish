@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class DetailPageViewController: UIViewController {
     enum KeyColors {
@@ -29,32 +30,41 @@ class DetailPageViewController: UIViewController {
     @IBOutlet weak var orderButton: UIButton!
     @IBOutlet weak var detailImagesStackView: UIStackView!
     
-    var dish: Dish?
     var viewModel: DishDetailsViewModel!
+    lazy var appConfiguration = AppConfiguration()
+    lazy var config = ApiDataNetworkConfig(baseURL: URL(string: appConfiguration.apiBaseURL)!)
+    lazy var concurrentQueue = DispatchQueue(label: "com.song.decodeQueue", attributes: .concurrent)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        viewModel = makeDishDetailsViewModel()
         bind(to: viewModel)
         viewModel.load()
         
         setupViews()
     }
     
-    func makeDishDetailsViewModel() -> DishDetailsViewModel? {
+    func makeDishDetailsViewModel(dish: Dish?) -> DishDetailsViewModel? {
         guard let dish = dish else { return nil }
-        return DefaultDishDetailsViewModel(fetchDishDetailsUseCaseFactory: makeFetchDishDetailsUseCase, dish: dish)
+        return DefaultDishDetailsViewModel(dish: dish,
+                                           dishDetailsRepository: makeDishDetailsRepository(),
+                                           dishImageRepository: makeDishImageRepository())
     }
     
-    func makeFetchDishDetailsUseCase(requestValue: FetchDishDetailsUseCase.RequestValue,
-                                     completion: @escaping (FetchDishDetailsUseCase.ResultValue) -> Void) -> UseCase {
-        return FetchDishDetailsUseCase(requestValue: requestValue,
-                                       completion: completion)
+    func makeDishDetailsRepository() -> DishDetailsRepository {
+        return DefaultDishDetailsRepository(networkService: DefaultNetworkService(config: config,
+                                                                                  session: AF,
+                                                                                  queue: concurrentQueue))
+    }
+    
+    func makeDishImageRepository() -> DishImageRepository {
+        return DefaultDishImageRepository(networkService: DefaultNetworkService(config: config,
+                                                                                session: AF,
+                                                                                queue: concurrentQueue))
     }
     
     private func setupViews() {
-        self.thumbnailImagesScrollView.isPagingEnabled = true
+        thumbnailImagesScrollView.isPagingEnabled = true
         orderButton.layer.masksToBounds = true
         orderButton.layer.cornerRadius = 5.0
         quantityLabel.layer.borderWidth = 1.0
@@ -122,9 +132,12 @@ class DetailPageViewController: UIViewController {
         viewModel.currentQuantity.observe(on: self) { [weak self] in
             self?.quantityLabel.text = "\($0)"
             self?.viewModel.updateTotalPrice()
+            self?.removeButton.isEnabled = viewModel.currentQuantity.value > 1
         }
-        viewModel.totalPrice.observe(on: self) { [weak self] in
-            self?.updateTotalPrice(with: $0)
+        viewModel.totalPrice.observe(on: self) { [weak self] price in
+            DispatchQueue.main.async {
+                self?.totalPriceLabel.text = viewModel.totalPrice.value
+            }
         }
     }
     
@@ -166,10 +179,5 @@ class DetailPageViewController: UIViewController {
             imageView.translatesAutoresizingMaskIntoConstraints = false
             imageView.heightAnchor.constraint(equalToConstant: ratio * self.view.frame.width).isActive = true
         }
-    }
-    
-    private func updateTotalPrice(with price: Int) {
-        totalPriceLabel.text = "\(price)원"
-        removeButton.isEnabled = price > 0
     }
 }
