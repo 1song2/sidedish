@@ -26,7 +26,7 @@ class BadgeView: UIView {
         commonInit()
     }
     
-    func commonInit() {
+    private func commonInit() {
         self.layer.masksToBounds = true
         self.layer.cornerRadius = 5.0
         self.translatesAutoresizingMaskIntoConstraints = false
