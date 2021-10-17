@@ -42,4 +42,9 @@ class BadgeView: UIView {
         self.topAnchor.constraint(equalTo: topAnchor).isActive = true
         self.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
     }
+    
+    func fill(with string: String) {
+        badgeLabel.text = string
+        backgroundColor = UIColor(named: string) ?? .lightGray
+    }
 }

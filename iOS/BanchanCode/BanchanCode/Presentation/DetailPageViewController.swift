@@ -61,6 +61,41 @@ class DetailPageViewController: UIViewController {
         quantityLabel.layer.borderColor = KeyColors.lineSeparatorColor?.cgColor
         setupUI(of: addButton)
         setupUI(of: removeButton)
+        
+        title = viewModel.title
+        nameLabel.text = viewModel.title
+        descriptionLabel.text = viewModel.description
+        lastPriceLabel.text = viewModel.lastPrice
+        configureOriginalPriceLabel(viewModel.originalPrice)
+        configureBadgeStackView(viewModel.badges)
+        quantityLabel.text = viewModel.currentQuantity.value.description
+        
+        removeButton.isEnabled = viewModel.currentQuantity.value > 1
+    }
+    
+    private func configureOriginalPriceLabel(_ origialPrice: String?) {
+        if let originalPrice = origialPrice {
+            originalPriceLabel.attributedText = originalPrice.strikethrough()
+            originalPriceLabel.isHidden = false
+        } else {
+            originalPriceLabel.isHidden = true
+        }
+    }
+    
+    private func configureBadgeStackView(_ badges: [String]?) {
+        badgeStackView.arrangedSubviews.forEach { subview in
+            subview.removeFromSuperview()
+        }
+        if let badges = badges {
+            badgeStackView.isHidden = false
+            badges.forEach { badgeString in
+                let badgeView = BadgeView()
+                badgeView.fill(with: badgeString)
+                badgeStackView.addArrangedSubview(badgeView)
+            }
+        } else {
+            badgeStackView.isHidden = true
+        }
     }
     
     private func setupUI(of button: UIButton) {
@@ -95,33 +130,6 @@ class DetailPageViewController: UIViewController {
     
     private func refreshView() {
         let additionalInformation = viewModel.additionalInformation.value
-        self.title = viewModel.title
-        self.nameLabel.text = viewModel.title
-        self.descriptionLabel.text = viewModel.description
-        
-        lastPriceLabel.text = viewModel.lastPrice
-        if let originalPrice = viewModel.originalPrice {
-            originalPriceLabel.attributedText = originalPrice.strikethrough()
-            originalPriceLabel.isHidden = false
-        } else {
-            originalPriceLabel.isHidden = true
-        }
-        
-        let badges = viewModel.badges
-        badgeStackView.arrangedSubviews.forEach { subview in
-            subview.removeFromSuperview()
-        }
-        if badges?.count == 0 {
-            badgeStackView.isHidden = true
-        } else {
-            badgeStackView.isHidden = false
-            badges?.forEach { badgeString in
-                let badgeView = BadgeView()
-                badgeView.badgeLabel.text = badgeString
-                badgeView.backgroundColor = badgeString == "이벤트특가" ? KeyColors.eventBadgeBackgroundColor : KeyColors.launchBadgeBackgroundColor
-                badgeStackView.addArrangedSubview(badgeView)
-            }
-        }
         pointLabel.text = additionalInformation.point
         deliveryInfoLabel.text = additionalInformation.deliveryMethod
         deliveryFeeLabel.attributedText = NSAttributedString(boldPart: "(40,000원 이상 구매 시 무료)",
