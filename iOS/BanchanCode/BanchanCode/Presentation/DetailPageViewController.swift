@@ -124,9 +124,10 @@ class DetailPageViewController: UIViewController {
         }
         pointLabel.text = additionalInformation.point
         deliveryInfoLabel.text = additionalInformation.deliveryMethod
-        deliveryFeeLabel.attributedText = NSAttributedString().makeBold("(40,000원 이상 구매 시 무료)",
-                                                                        within: "2,500원 (40,000원 이상 구매 시 무료)",
-                                                                        font: .systemFont(ofSize: 14.0))
+        deliveryFeeLabel.attributedText = NSAttributedString(boldPart: "(40,000원 이상 구매 시 무료)",
+                                                             in: additionalInformation.deliveryFee
+                                                             ?? "2,500원 (40,000원 이상 구매 시 무료)",
+                                                             fontSize: 14.0)
     }
     
     private func refreshThumbImages() {
