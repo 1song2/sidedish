@@ -18,6 +18,9 @@
 		E45652AE271A962500E5D9A1 /* DefaultDishesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45652AD271A962500E5D9A1 /* DefaultDishesRepository.swift */; };
 		E45652B0271A969F00E5D9A1 /* DefaultDishDetailsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45652AF271A969F00E5D9A1 /* DefaultDishDetailsRepository.swift */; };
 		E45652B2271A96CD00E5D9A1 /* DefaultDishImageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45652B1271A96CD00E5D9A1 /* DefaultDishImageRepository.swift */; };
+		E45652B5271ABBB600E5D9A1 /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45652B4271ABBB600E5D9A1 /* CategoryViewModel.swift */; };
+		E45652B7271BF00800E5D9A1 /* Int+commaRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45652B6271BF00800E5D9A1 /* Int+commaRepresentation.swift */; };
+		E45652B9271C175800E5D9A1 /* String+ExtractingNumberFromString.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45652B8271C175800E5D9A1 /* String+ExtractingNumberFromString.swift */; };
 		E46342EA2631199B0001D87A /* DishesResponseDTO+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = E46342E92631199B0001D87A /* DishesResponseDTO+Mapping.swift */; };
 		E463432D263178E10001D87A /* String+StrikeThrough.swift in Sources */ = {isa = PBXBuildFile; fileRef = E463432C263178E10001D87A /* String+StrikeThrough.swift */; };
 		E49F172F2638CF39006C2108 /* DetailPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E49F172E2638CF39006C2108 /* DetailPageViewController.swift */; };
@@ -29,9 +32,6 @@
 		E4D5D7F7263276120077DF97 /* DishesItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4D5D7F6263276120077DF97 /* DishesItemViewModel.swift */; };
 		E4D5D8342632ECFF0077DF97 /* DishesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4D5D8332632ECFF0077DF97 /* DishesViewModel.swift */; };
 		E4D5D83C2632ED5C0077DF97 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4D5D83B2632ED5C0077DF97 /* Observable.swift */; };
-		E4E3BF682636A53A0041BA5B /* Categorizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E3BF672636A53A0041BA5B /* Categorizable.swift */; };
-		E4FC9C79262E9E5800BEAAE4 /* MainPageCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FC9C78262E9E5800BEAAE4 /* MainPageCollectionViewDelegate.swift */; };
-		E4FC9C7F262E9ED800BEAAE4 /* MainPageCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FC9C7E262E9ED800BEAAE4 /* MainPageCollectionViewDataSource.swift */; };
 		E4FC9C8E262EA2E000BEAAE4 /* DishCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FC9C8C262EA2E000BEAAE4 /* DishCell.swift */; };
 		E4FC9C8F262EA2E000BEAAE4 /* DishCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E4FC9C8D262EA2E000BEAAE4 /* DishCell.xib */; };
 		E4FC9CBB26300D5800BEAAE4 /* Dish.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FC9CBA26300D5800BEAAE4 /* Dish.swift */; };
@@ -84,6 +84,9 @@
 		E45652AD271A962500E5D9A1 /* DefaultDishesRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDishesRepository.swift; sourceTree = "<group>"; };
 		E45652AF271A969F00E5D9A1 /* DefaultDishDetailsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDishDetailsRepository.swift; sourceTree = "<group>"; };
 		E45652B1271A96CD00E5D9A1 /* DefaultDishImageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDishImageRepository.swift; sourceTree = "<group>"; };
+		E45652B4271ABBB600E5D9A1 /* CategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModel.swift; sourceTree = "<group>"; };
+		E45652B6271BF00800E5D9A1 /* Int+commaRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+commaRepresentation.swift"; sourceTree = "<group>"; };
+		E45652B8271C175800E5D9A1 /* String+ExtractingNumberFromString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+ExtractingNumberFromString.swift"; sourceTree = "<group>"; };
 		E46342E92631199B0001D87A /* DishesResponseDTO+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DishesResponseDTO+Mapping.swift"; sourceTree = "<group>"; };
 		E463432C263178E10001D87A /* String+StrikeThrough.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+StrikeThrough.swift"; sourceTree = "<group>"; };
 		E49F172E2638CF39006C2108 /* DetailPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPageViewController.swift; sourceTree = "<group>"; };
@@ -95,9 +98,6 @@
 		E4D5D7F6263276120077DF97 /* DishesItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishesItemViewModel.swift; sourceTree = "<group>"; };
 		E4D5D8332632ECFF0077DF97 /* DishesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishesViewModel.swift; sourceTree = "<group>"; };
 		E4D5D83B2632ED5C0077DF97 /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
-		E4E3BF672636A53A0041BA5B /* Categorizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Categorizable.swift; sourceTree = "<group>"; };
-		E4FC9C78262E9E5800BEAAE4 /* MainPageCollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageCollectionViewDelegate.swift; sourceTree = "<group>"; };
-		E4FC9C7E262E9ED800BEAAE4 /* MainPageCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageCollectionViewDataSource.swift; sourceTree = "<group>"; };
 		E4FC9C8C262EA2E000BEAAE4 /* DishCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishCell.swift; sourceTree = "<group>"; };
 		E4FC9C8D262EA2E000BEAAE4 /* DishCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DishCell.xib; sourceTree = "<group>"; };
 		E4FC9CBA26300D5800BEAAE4 /* Dish.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dish.swift; sourceTree = "<group>"; };
@@ -206,8 +206,8 @@
 			isa = PBXGroup;
 			children = (
 				E4D5D8332632ECFF0077DF97 /* DishesViewModel.swift */,
+				E45652B4271ABBB600E5D9A1 /* CategoryViewModel.swift */,
 				E4D5D7F6263276120077DF97 /* DishesItemViewModel.swift */,
-				E4E3BF672636A53A0041BA5B /* Categorizable.swift */,
 				E4B254A426397CEF00F522A6 /* DishDetailsViewModel.swift */,
 			);
 			path = ViewModel;
@@ -257,18 +257,11 @@
 			isa = PBXGroup;
 			children = (
 				E463432C263178E10001D87A /* String+StrikeThrough.swift */,
+				E45652B6271BF00800E5D9A1 /* Int+commaRepresentation.swift */,
 				E4BD2E72263B72DF008E9404 /* NSAttributedString+PartiallyBoldText.swift */,
+				E45652B8271C175800E5D9A1 /* String+ExtractingNumberFromString.swift */,
 			);
 			path = Utility;
-			sourceTree = "<group>";
-		};
-		E4FC9C77262E9DE700BEAAE4 /* Delegate */ = {
-			isa = PBXGroup;
-			children = (
-				E4FC9C78262E9E5800BEAAE4 /* MainPageCollectionViewDelegate.swift */,
-				E4FC9C7E262E9ED800BEAAE4 /* MainPageCollectionViewDataSource.swift */,
-			);
-			path = Delegate;
 			sourceTree = "<group>";
 		};
 		E4FC9CB926300D4E00BEAAE4 /* Entities */ = {
@@ -350,7 +343,6 @@
 				E4DCCD662630152E00206747 /* Domain */,
 				E46342EE2631199F0001D87A /* Data */,
 				E4FC9CC52630104600BEAAE4 /* Network */,
-				E4FC9C77262E9DE700BEAAE4 /* Delegate */,
 				E4E3BF792636A6E80041BA5B /* Utility */,
 				E4E3BF782636A6D20041BA5B /* Resource */,
 			);
@@ -617,7 +609,6 @@
 			files = (
 				E4D5D83C2632ED5C0077DF97 /* Observable.swift in Sources */,
 				E44CB5C027141D05004C2ED5 /* Endpoint.swift in Sources */,
-				E4FC9C7F262E9ED800BEAAE4 /* MainPageCollectionViewDataSource.swift in Sources */,
 				E49F172F2638CF39006C2108 /* DetailPageViewController.swift in Sources */,
 				E4D5D7F7263276120077DF97 /* DishesItemViewModel.swift in Sources */,
 				E4BD2E73263B72DF008E9404 /* NSAttributedString+PartiallyBoldText.swift in Sources */,
@@ -625,11 +616,10 @@
 				FA88E9E3262E7F50001C3E53 /* MainPageViewController.swift in Sources */,
 				FA74E4BE2638880A00F1CC7B /* RealmManager.swift in Sources */,
 				E4B254A526397CEF00F522A6 /* DishDetailsViewModel.swift in Sources */,
-				E4FC9C79262E9E5800BEAAE4 /* MainPageCollectionViewDelegate.swift in Sources */,
 				E44CB5C227142121004C2ED5 /* NetworkConfig.swift in Sources */,
 				E4D5D8342632ECFF0077DF97 /* DishesViewModel.swift in Sources */,
+				E45652B7271BF00800E5D9A1 /* Int+commaRepresentation.swift in Sources */,
 				E49F173726390185006C2108 /* DishDetailResponseDTO.swift in Sources */,
-				E4E3BF682636A53A0041BA5B /* Categorizable.swift in Sources */,
 				FA864A792630030600A3C429 /* SectionHeaderView.swift in Sources */,
 				E463432D263178E10001D87A /* String+StrikeThrough.swift in Sources */,
 				E44CB5C427142254004C2ED5 /* APIEndpoints.swift in Sources */,
@@ -638,6 +628,8 @@
 				FA74E4B6263880B100F1CC7B /* DishDB.swift in Sources */,
 				E4FC9CBB26300D5800BEAAE4 /* Dish.swift in Sources */,
 				E45652AE271A962500E5D9A1 /* DefaultDishesRepository.swift in Sources */,
+				E45652B5271ABBB600E5D9A1 /* CategoryViewModel.swift in Sources */,
+				E45652B9271C175800E5D9A1 /* String+ExtractingNumberFromString.swift in Sources */,
 				E4FC9C8E262EA2E000BEAAE4 /* DishCell.swift in Sources */,
 				E49F173526390170006C2108 /* DishDetail.swift in Sources */,
 				E4BD2E71263ACC54008E9404 /* BadgeView.swift in Sources */,

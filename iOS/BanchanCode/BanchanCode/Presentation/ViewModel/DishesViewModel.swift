@@ -7,60 +7,38 @@
 
 import Foundation
 
-struct DishesListViewModelActions {
-    let goToDishDetail: (Dish) -> Void
-}
-
 protocol DishesViewModelInput {
-    func load()
-    func getNumberOfItems() -> Int
-    func didSelectItem(at index: Int)
+    func load(completion: @escaping (Int, Dishes) -> Void)
+    func update(index: Int, items: Dishes)
 }
 
 protocol DishesViewModelOutput {
-    var category: Observable<Categorizable> { get }
-    var items: Observable<[DishesItemViewModel]> { get }
+    var categories: [CategoryViewModel] { get }
 }
 
 protocol DishesViewModel: DishesViewModelInput, DishesViewModelOutput { }
 
 final class DefaultDishesViewModel: DishesViewModel {
-    private let fetchDishesUseCase: FetchDishesUseCase
-    private let actions: DishesListViewModelActions?
-    
     //MARK: - Output
-    var category: Observable<Categorizable>
-    var items: Observable<[DishesItemViewModel]> = Observable([])
+    var categories: [CategoryViewModel] = []
     
     //MARK: - Init
-    init(fetchDishesUseCase: FetchDishesUseCase,
-         category: Categorizable,
-         actions: DishesListViewModelActions? = nil) {
-        self.fetchDishesUseCase = fetchDishesUseCase
-        self.category = Observable(category)
-        self.actions = actions
+    init(categories: [CategoryViewModel]) {
+        self.categories = categories
     }
 }
 
 //MARK: - Input
 extension DefaultDishesViewModel {
-    func load() {
-        fetchDishesUseCase.execute(requestValue: .init(categoryName: category.value.name), completion: { result in
-            switch result {
-            case .success(let items):
-                self.items.value = items.dishes.map(DishesItemViewModel.init)
-                self.category.value.items = items.dishes
-            case .failure(let error):
-                print(error.localizedDescription)
+    func load(completion: @escaping (Int, Dishes) -> Void) {
+        categories.forEach { categoryViewModel in
+            categoryViewModel.load { index, items in
+                completion(index, items)
             }
-        })
+        }
     }
     
-    func getNumberOfItems() -> Int {
-        return items.value.count
-    }
-    
-    func didSelectItem(at index: Int) {
-        actions?.goToDishDetail(items.value[index].dish)
+    func update(index: Int, items: Dishes) {
+        self.categories[index].update(items: items)
     }
 }
