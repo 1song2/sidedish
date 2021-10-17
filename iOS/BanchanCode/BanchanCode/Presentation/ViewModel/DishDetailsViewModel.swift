@@ -126,6 +126,6 @@ extension DefaultDishDetailsViewModel {
     }
     
     func updateTotalPrice() {
-        totalPrice.value = currentQuantity.value * (Int(lastPrice) ?? 0)
+        totalPrice.value = "\((currentQuantity.value * lastPrice.extractedNumbers).commaRepresentation)원"
     }
 }
