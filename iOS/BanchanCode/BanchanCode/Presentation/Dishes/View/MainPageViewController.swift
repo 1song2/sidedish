@@ -102,20 +102,26 @@ extension MainPageViewController: UICollectionViewDataSource {
             return UICollectionReusableView()
         }
         headerView.fill(with: viewModel.categories[indexPath.section])
-        headerView.numberOfItems = viewModel.categories[indexPath.section].getNumberOfItems()
         return headerView
     }
 }
 
 //MARK: - UICollectionViewDelegate, UICollectionViewDelegateFlowLayout
 extension MainPageViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    enum Constant {
+        static let horizontalInset: CGFloat = 16.0
+        static let verticalInset: CGFloat = 24.0
+        static let cellHeight: CGFloat = 130.0
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.size.width - 32.0, height: 130.0)
+        return CGSize(width: collectionView.frame.size.width - Constant.horizontalInset * 2,
+                      height: Constant.cellHeight)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         let width: CGFloat = collectionView.frame.width
-        let height: CGFloat = 50.0 //32.0
+        let height: CGFloat = Constant.horizontalInset * 2
         return CGSize(width: width, height: height)
     }
     
@@ -124,6 +130,9 @@ extension MainPageViewController: UICollectionViewDelegate, UICollectionViewDele
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 24.0, left: 16.0, bottom: 24.0, right: 16.0)
+        return UIEdgeInsets(top: Constant.verticalInset,
+                            left: Constant.horizontalInset,
+                            bottom: Constant.verticalInset,
+                            right: Constant.horizontalInset)
     }
 }

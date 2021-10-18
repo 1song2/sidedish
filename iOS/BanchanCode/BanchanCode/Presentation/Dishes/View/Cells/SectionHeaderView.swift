@@ -9,29 +9,21 @@ import UIKit
 import Toaster
 
 class SectionHeaderView: UICollectionReusableView {
-    
-    @IBOutlet weak var sectionStackView: UIStackView!
     @IBOutlet weak var sectionTitleLabel: UILabel!
-    @IBOutlet weak var sectionContentLabel: UILabel!
     
     static let reuseIdentifier = String(describing: SectionHeaderView.self)
-    var numberOfItems: Int = 0
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        self.sectionContentLabel.isHidden = true
-    }
+    private var viewModel: CategoryViewModel!
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.sectionContentLabel.text = "\(numberOfItems)개 상품이 등록되어 있습니다"
-        Toast(text: "\(numberOfItems)개 상품이 등록되어 있습니다").show()
-        UIView.animate(withDuration: 0.5) {
-            self.sectionContentLabel.isHidden = !self.sectionContentLabel.isHidden
-            self.layoutIfNeeded()
-        }
+        showNumberOfItems(with: viewModel)
     }
     
     func fill(with viewModel: CategoryViewModel) {
+        self.viewModel = viewModel
         sectionTitleLabel.text = viewModel.phrase
+    }
+    
+    private func showNumberOfItems(with viewModel: CategoryViewModel) {
+        Toast(text: "\(viewModel.getNumberOfItems())개 상품이 등록되어 있습니다").show()
     }
 }
