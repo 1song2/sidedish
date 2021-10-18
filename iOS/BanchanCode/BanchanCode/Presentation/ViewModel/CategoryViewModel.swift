@@ -28,7 +28,7 @@ protocol CategoryViewModelOutput {
 protocol CategoryViewModel: CategoryViewModelInput, CategoryViewModelOutput { }
 
 final class DefaultCategoryViewModel: CategoryViewModel {
-    private let dishesRepository: DefaultDishesRepository
+    private let dishesRepository: DishesRepository
     private let actions: CategoryViewModelActions?
     
     //MARK: - Output
@@ -38,7 +38,7 @@ final class DefaultCategoryViewModel: CategoryViewModel {
     var items: Observable<[DishesItemViewModel]> = Observable([])
     
     //MARK: - Init
-    init(dishesRepository: DefaultDishesRepository,
+    init(dishesRepository: DishesRepository,
          actions: CategoryViewModelActions? = nil,
          sectionIndex: Int,
          path: String,

@@ -14,13 +14,13 @@ class MainPageViewController: UIViewController {
     
     @IBOutlet weak var dishCollectionView: UICollectionView!
     private var viewModel: DishesViewModel!
-    private var dishImageRepository: DefaultDishImageRepository?
-    lazy var appConfiguration = AppConfiguration()
-    lazy var config = ApiDataNetworkConfig(baseURL: URL(string: appConfiguration.apiBaseURL)!)
-    lazy var concurrentQueue = DispatchQueue(label: "com.song.decodeQueue", attributes: .concurrent)
-    lazy var networkService = DefaultNetworkService(config: config,
-                                                    session: AF,
-                                                    queue: concurrentQueue)
+    private var dishImagesRepository: DishImagesRepository?
+    
+    func inject(viewModel: DishesViewModel,
+                dishImagesRepository: DishImagesRepository?) {
+        self.viewModel = viewModel
+        self.dishImagesRepository = dishImagesRepository
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -36,12 +36,8 @@ class MainPageViewController: UIViewController {
         super.viewDidLoad()
         registerXib()
         
-        viewModel = makeDishesViewModel()
-        
         dishCollectionView.delegate = self
         dishCollectionView.dataSource = self
-        
-        dishImageRepository = DefaultDishImageRepository(networkService: networkService)
         
         bind(to: viewModel)
         viewModel.load { index, items in
@@ -52,23 +48,6 @@ class MainPageViewController: UIViewController {
         
         //App에 저장된 RealmDB파일의 위치를 알 수 있는 함수.
         //print(Realm.Configuration.defaultConfiguration.fileURL!)
-    }
-    
-    func makeDishesViewModel() -> DishesViewModel {
-        let mainCategoryViewModel = makeCategoryViewModel(sectionIndex: 0, path: "main", phrase: "모두가 좋아하는 든든한 메인요리")
-        let soupCategoryViewModel = makeCategoryViewModel(sectionIndex: 1, path: "soup", phrase: "정성이 담긴 뜨끈뜨끈 국물요리")
-        let sideCategoryViewModel = makeCategoryViewModel(sectionIndex: 2, path: "side", phrase: "식탁을 풍성하게 하는 정갈한 밑반찬")
-        let categories = [mainCategoryViewModel, soupCategoryViewModel, sideCategoryViewModel]
-        return DefaultDishesViewModel(categories: categories)
-    }
-    
-    func makeCategoryViewModel(sectionIndex: Int, path: String, phrase: String) -> CategoryViewModel {
-        let actions = CategoryViewModelActions(showDishDetails: showDishDetails)
-        return DefaultCategoryViewModel(dishesRepository: DefaultDishesRepository(networkService: networkService),
-                                        actions: actions,
-                                        sectionIndex: sectionIndex,
-                                        path: path,
-                                        phrase: phrase)
     }
     
     private func registerXib() {
@@ -97,13 +76,6 @@ class MainPageViewController: UIViewController {
             self.dishCollectionView.reloadSections(IndexSet(integer: index))
         }
     }
-    
-    private func showDishDetails(dish: Dish) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(identifier: "detailPageVC") as DetailPageViewController
-        vc.viewModel = vc.makeDishDetailsViewModel(dish: dish)
-        navigationController?.pushViewController(vc, animated: true)
-    }
 }
 
 //MARK: - UICollectionViewDataSource
@@ -121,7 +93,7 @@ extension MainPageViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         let dishesItemViewModel = viewModel.categories[indexPath.section].items.value[indexPath.row]
-        cell.fill(with: dishesItemViewModel, dishImageRepository: self.dishImageRepository)
+        cell.fill(with: dishesItemViewModel, dishImageRepository: self.dishImagesRepository)
         return cell
     }
     

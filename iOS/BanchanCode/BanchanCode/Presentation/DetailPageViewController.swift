@@ -31,9 +31,15 @@ class DetailPageViewController: UIViewController {
     @IBOutlet weak var detailImagesStackView: UIStackView!
     
     var viewModel: DishDetailsViewModel!
-    lazy var appConfiguration = AppConfiguration()
-    lazy var config = ApiDataNetworkConfig(baseURL: URL(string: appConfiguration.apiBaseURL)!)
-    lazy var concurrentQueue = DispatchQueue(label: "com.song.decodeQueue", attributes: .concurrent)
+    
+    init?(coder: NSCoder, viewModel: DishDetailsViewModel?) {
+        self.viewModel = viewModel
+        super.init(coder: coder)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,25 +48,6 @@ class DetailPageViewController: UIViewController {
         viewModel.load()
         
         setupViews()
-    }
-    
-    func makeDishDetailsViewModel(dish: Dish?) -> DishDetailsViewModel? {
-        guard let dish = dish else { return nil }
-        return DefaultDishDetailsViewModel(dish: dish,
-                                           dishDetailsRepository: makeDishDetailsRepository(),
-                                           dishImageRepository: makeDishImageRepository())
-    }
-    
-    func makeDishDetailsRepository() -> DishDetailsRepository {
-        return DefaultDishDetailsRepository(networkService: DefaultNetworkService(config: config,
-                                                                                  session: AF,
-                                                                                  queue: concurrentQueue))
-    }
-    
-    func makeDishImageRepository() -> DishImageRepository {
-        return DefaultDishImageRepository(networkService: DefaultNetworkService(config: config,
-                                                                                session: AF,
-                                                                                queue: concurrentQueue))
     }
     
     private func setupViews() {
