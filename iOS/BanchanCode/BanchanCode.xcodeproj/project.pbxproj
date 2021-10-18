@@ -216,7 +216,6 @@
 				E4D5D8332632ECFF0077DF97 /* DishesViewModel.swift */,
 				E45652B4271ABBB600E5D9A1 /* CategoryViewModel.swift */,
 				E4D5D7F6263276120077DF97 /* DishesItemViewModel.swift */,
-				E4B254A426397CEF00F522A6 /* DishDetailsViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -232,11 +231,9 @@
 		E4E3BF5F2636A4CD0041BA5B /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
-				E45652BA271C373100E5D9A1 /* DishSelectionFlowCoordinator.swift */,
-				E4D5D7FB2632767C0077DF97 /* ViewModel */,
-				FA864A73262FFB6600A3C429 /* Views */,
-				FA88E9E2262E7F50001C3E53 /* MainPageViewController.swift */,
-				E49F172E2638CF39006C2108 /* DetailPageViewController.swift */,
+				E4F61C1B271D403A003F20BC /* Flows */,
+				E4F61C1C271D4064003F20BC /* Dishes */,
+				E4F61C1E271D40D5003F20BC /* DishDetails */,
 				E4D5D83B2632ED5C0077DF97 /* Observable.swift */,
 			);
 			path = Presentation;
@@ -249,8 +246,7 @@
 				FA88E9E0262E7F50001C3E53 /* SceneDelegate.swift */,
 				E45652AB271A8A2600E5D9A1 /* AppConfigurations.swift */,
 				E4F61C18271D234A003F20BC /* AppFlowCoordinator.swift */,
-				E45652BE271C6D4C00E5D9A1 /* AppDIContainer.swift */,
-				E45652BC271C69EB00E5D9A1 /* DishesSceneDIContainer.swift */,
+				E4F61C1A271D401A003F20BC /* DIContainer */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -274,6 +270,70 @@
 				E45652B8271C175800E5D9A1 /* String+ExtractingNumberFromString.swift */,
 			);
 			path = Utility;
+			sourceTree = "<group>";
+		};
+		E4F61C1A271D401A003F20BC /* DIContainer */ = {
+			isa = PBXGroup;
+			children = (
+				E45652BE271C6D4C00E5D9A1 /* AppDIContainer.swift */,
+				E45652BC271C69EB00E5D9A1 /* DishesSceneDIContainer.swift */,
+			);
+			path = DIContainer;
+			sourceTree = "<group>";
+		};
+		E4F61C1B271D403A003F20BC /* Flows */ = {
+			isa = PBXGroup;
+			children = (
+				E45652BA271C373100E5D9A1 /* DishSelectionFlowCoordinator.swift */,
+			);
+			path = Flows;
+			sourceTree = "<group>";
+		};
+		E4F61C1C271D4064003F20BC /* Dishes */ = {
+			isa = PBXGroup;
+			children = (
+				FA88E9E4262E7F50001C3E53 /* Main.storyboard */,
+				E4BD2E70263ACC54008E9404 /* BadgeView.swift */,
+				E4D5D7FB2632767C0077DF97 /* ViewModel */,
+				FA864A73262FFB6600A3C429 /* View */,
+			);
+			path = Dishes;
+			sourceTree = "<group>";
+		};
+		E4F61C1D271D40A5003F20BC /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				E4FC9C8C262EA2E000BEAAE4 /* DishCell.swift */,
+				E4FC9C8D262EA2E000BEAAE4 /* DishCell.xib */,
+				FA864A772630030500A3C429 /* SectionHeaderView.swift */,
+				FA864A782630030600A3C429 /* SectionHeaderView.xib */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		E4F61C1E271D40D5003F20BC /* DishDetails */ = {
+			isa = PBXGroup;
+			children = (
+				E4F61C1F271D40E4003F20BC /* ViewModel */,
+				E4F61C20271D40EC003F20BC /* View */,
+			);
+			path = DishDetails;
+			sourceTree = "<group>";
+		};
+		E4F61C1F271D40E4003F20BC /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				E4B254A426397CEF00F522A6 /* DishDetailsViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		E4F61C20271D40EC003F20BC /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E49F172E2638CF39006C2108 /* DetailPageViewController.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		E4FC9CB926300D4E00BEAAE4 /* Entities */ = {
@@ -312,17 +372,13 @@
 			name = RealmStorage;
 			sourceTree = "<group>";
 		};
-		FA864A73262FFB6600A3C429 /* Views */ = {
+		FA864A73262FFB6600A3C429 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				FA88E9E4262E7F50001C3E53 /* Main.storyboard */,
-				E4FC9C8C262EA2E000BEAAE4 /* DishCell.swift */,
-				E4FC9C8D262EA2E000BEAAE4 /* DishCell.xib */,
-				FA864A772630030500A3C429 /* SectionHeaderView.swift */,
-				FA864A782630030600A3C429 /* SectionHeaderView.xib */,
-				E4BD2E70263ACC54008E9404 /* BadgeView.swift */,
+				FA88E9E2262E7F50001C3E53 /* MainPageViewController.swift */,
+				E4F61C1D271D40A5003F20BC /* Cells */,
 			);
-			path = Views;
+			path = View;
 			sourceTree = "<group>";
 		};
 		FA88E9D2262E7F50001C3E53 = {
