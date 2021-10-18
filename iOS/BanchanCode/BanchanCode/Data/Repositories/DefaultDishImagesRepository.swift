@@ -7,11 +7,11 @@
 
 import Foundation
 
-protocol DishImageRepository {
+protocol DishImagesRepository {
     func fetchImage(with imagePath: String, completion: @escaping (Result<Data, Error>) -> Void)
 }
 
-final class DefaultDishImageRepository {
+final class DefaultDishImagesRepository {
     private let networkService: NetworkService
     
     init(networkService: NetworkService) {
@@ -19,7 +19,7 @@ final class DefaultDishImageRepository {
     }
 }
 
-extension DefaultDishImageRepository: DishImageRepository {
+extension DefaultDishImagesRepository: DishImagesRepository {
     func fetchImage(with imagePath: String, completion: @escaping (Result<Data, Error>) -> Void) {
         let endpoint = APIEndpoints.getImage(path: imagePath)
         networkService.request(with: endpoint) { (result: Result<Data, Error>) in

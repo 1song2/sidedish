@@ -25,7 +25,7 @@ class DishCell: UICollectionViewCell {
         thumbnailImageView.layer.cornerRadius = 5.0
     }
     
-    func fill(with viewModel: DishesItemViewModel, dishImageRepository: DefaultDishImageRepository?) {
+    func fill(with viewModel: DishesItemViewModel, dishImageRepository: DishImagesRepository?) {
         let dish = viewModel.dish
         nameLabel.text = dish.title
         descriptionLabel.text = dish.description
@@ -64,7 +64,7 @@ class DishCell: UICollectionViewCell {
         thumbnailImageView.image = nil
     }
     
-    private func updateThumbnailImage(imagePath: String, repository: DefaultDishImageRepository?) {
+    private func updateThumbnailImage(imagePath: String, repository: DishImagesRepository?) {
         repository?.fetchImage(with: imagePath) { [weak self] result in
             guard let self = self else { return }
             if case let .success(data) = result {

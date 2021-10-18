@@ -35,7 +35,7 @@ final class DefaultDishDetailsViewModel: DishDetailsViewModel {
     private var thumbImagePaths: [String] = []
     private var detailImagePaths: [String] = []
     private let dishDetailsRepository: DishDetailsRepository
-    private let dishImageRepository: DishImageRepository
+    private let dishImageRepository: DishImagesRepository
     
     //MARK: - Output
     let detailHash: String
@@ -53,7 +53,7 @@ final class DefaultDishDetailsViewModel: DishDetailsViewModel {
     //MARK: - Init
     init(dish: Dish,
          dishDetailsRepository: DishDetailsRepository,
-         dishImageRepository: DishImageRepository) {
+         dishImageRepository: DishImagesRepository) {
         self.detailHash = dish.hash
         self.topImagePath = dish.imageURL
         self.title = dish.title
