@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class DetailPageViewController: UIViewController {
     enum KeyColors {
@@ -29,38 +30,69 @@ class DetailPageViewController: UIViewController {
     @IBOutlet weak var orderButton: UIButton!
     @IBOutlet weak var detailImagesStackView: UIStackView!
     
-    var dish: Dish?
     var viewModel: DishDetailsViewModel!
+    
+    init?(coder: NSCoder, viewModel: DishDetailsViewModel?) {
+        self.viewModel = viewModel
+        super.init(coder: coder)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        viewModel = makeDishDetailsViewModel()
         bind(to: viewModel)
         viewModel.load()
         
         setupViews()
     }
     
-    func makeDishDetailsViewModel() -> DishDetailsViewModel? {
-        guard let dish = dish else { return nil }
-        return DefaultDishDetailsViewModel(fetchDishDetailsUseCaseFactory: makeFetchDishDetailsUseCase, dish: dish)
-    }
-    
-    func makeFetchDishDetailsUseCase(requestValue: FetchDishDetailsUseCase.RequestValue,
-                                     completion: @escaping (FetchDishDetailsUseCase.ResultValue) -> Void) -> UseCase {
-        return FetchDishDetailsUseCase(requestValue: requestValue,
-                                       completion: completion)
-    }
-    
     private func setupViews() {
-        self.thumbnailImagesScrollView.isPagingEnabled = true
+        thumbnailImagesScrollView.isPagingEnabled = true
         orderButton.layer.masksToBounds = true
         orderButton.layer.cornerRadius = 5.0
         quantityLabel.layer.borderWidth = 1.0
         quantityLabel.layer.borderColor = KeyColors.lineSeparatorColor?.cgColor
         setupUI(of: addButton)
         setupUI(of: removeButton)
+        
+        title = viewModel.title
+        nameLabel.text = viewModel.title
+        descriptionLabel.text = viewModel.description
+        lastPriceLabel.text = viewModel.lastPrice
+        configureOriginalPriceLabel(viewModel.originalPrice)
+        configureBadgeStackView(viewModel.badges)
+        quantityLabel.text = viewModel.currentQuantity.value.description
+        
+        removeButton.isEnabled = viewModel.currentQuantity.value > 1
+    }
+    
+    private func configureOriginalPriceLabel(_ origialPrice: String?) {
+        if let originalPrice = origialPrice {
+            originalPriceLabel.attributedText = originalPrice.strikethrough()
+            originalPriceLabel.isHidden = false
+        } else {
+            originalPriceLabel.isHidden = true
+        }
+    }
+    
+    private func configureBadgeStackView(_ badges: [String]?) {
+        badgeStackView.arrangedSubviews.forEach { subview in
+            subview.removeFromSuperview()
+        }
+        if let badges = badges {
+            badgeStackView.isHidden = false
+            badges.forEach { badgeString in
+                let badgeView = BadgeView()
+                badgeView.fill(with: badgeString)
+                badgeStackView.addArrangedSubview(badgeView)
+            }
+        } else {
+            badgeStackView.isHidden = true
+        }
     }
     
     private func setupUI(of button: UIButton) {
@@ -87,46 +119,23 @@ class DetailPageViewController: UIViewController {
         viewModel.currentQuantity.observe(on: self) { [weak self] in
             self?.quantityLabel.text = "\($0)"
             self?.viewModel.updateTotalPrice()
+            self?.removeButton.isEnabled = viewModel.currentQuantity.value > 1
         }
-        viewModel.totalPrice.observe(on: self) { [weak self] in
-            self?.updateTotalPrice(with: $0)
+        viewModel.totalPrice.observe(on: self) { [weak self] price in
+            DispatchQueue.main.async {
+                self?.totalPriceLabel.text = viewModel.totalPrice.value
+            }
         }
     }
     
     private func refreshView() {
         let additionalInformation = viewModel.additionalInformation.value
-        self.title = viewModel.title
-        self.nameLabel.text = viewModel.title
-        self.descriptionLabel.text = viewModel.description
-        
-        lastPriceLabel.text = viewModel.lastPrice
-        if let originalPrice = viewModel.originalPrice {
-            originalPriceLabel.attributedText = originalPrice.strikethrough()
-            originalPriceLabel.isHidden = false
-        } else {
-            originalPriceLabel.isHidden = true
-        }
-        
-        let badges = viewModel.badges
-        badgeStackView.arrangedSubviews.forEach { subview in
-            subview.removeFromSuperview()
-        }
-        if badges?.count == 0 {
-            badgeStackView.isHidden = true
-        } else {
-            badgeStackView.isHidden = false
-            badges?.forEach { badgeString in
-                let badgeView = BadgeView()
-                badgeView.badgeLabel.text = badgeString
-                badgeView.backgroundColor = badgeString == "이벤트특가" ? KeyColors.eventBadgeBackgroundColor : KeyColors.launchBadgeBackgroundColor
-                badgeStackView.addArrangedSubview(badgeView)
-            }
-        }
         pointLabel.text = additionalInformation.point
         deliveryInfoLabel.text = additionalInformation.deliveryMethod
-        deliveryFeeLabel.attributedText = NSAttributedString().makeBold("(40,000원 이상 구매 시 무료)",
-                                                                        within: "2,500원 (40,000원 이상 구매 시 무료)",
-                                                                        font: .systemFont(ofSize: 14.0))
+        deliveryFeeLabel.attributedText = NSAttributedString(boldPart: "(40,000원 이상 구매 시 무료)",
+                                                             in: additionalInformation.deliveryFee
+                                                             ?? "2,500원 (40,000원 이상 구매 시 무료)",
+                                                             fontSize: 14.0)
     }
     
     private func refreshThumbImages() {
@@ -157,10 +166,5 @@ class DetailPageViewController: UIViewController {
             imageView.translatesAutoresizingMaskIntoConstraints = false
             imageView.heightAnchor.constraint(equalToConstant: ratio * self.view.frame.width).isActive = true
         }
-    }
-    
-    private func updateTotalPrice(with price: Int) {
-        totalPriceLabel.text = "\(price)원"
-        removeButton.isEnabled = price > 0
     }
 }

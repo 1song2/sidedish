@@ -14,6 +14,10 @@ protocol NetworkService {
     @discardableResult
     func request<T: Decodable, E: ResponseRequestable>(with endpoint: E,
                                                        completion: @escaping CompletionHandler<T>) -> DataRequest? where E.Response == T
+    
+    @discardableResult
+    func request<E: ResponseRequestable>(with endpoint: E,
+                                         completion: @escaping CompletionHandler<Data>) -> DataRequest? where E.Response == Data
 }
 
 protocol NetworkSession {
@@ -58,9 +62,30 @@ final class DefaultNetworkService: NetworkService {
                                queue: queue) { response in
                 switch response.result {
                 case .success(let responseDTO):
-                    DispatchQueue.main.async { completion(.success(responseDTO)) }
+                    completion(.success(responseDTO))
                 case .failure(let error):
-                    DispatchQueue.main.async { completion(.failure(error)) }
+                    completion(.failure(error))
+                }
+            }
+        return request
+    }
+    
+    func request<E: ResponseRequestable>(with endpoint: E,
+                                         completion: @escaping CompletionHandler<Data>) -> DataRequest? where E.Response == Data {
+        let request = session.request(endpoint.fullPath(with: config),
+                                      method: endpoint.method,
+                                      parameters: nil,
+                                      encoding: URLEncoding.default,
+                                      headers: nil,
+                                      interceptor: nil,
+                                      requestModifier: nil)
+            .validate(statusCode: 200..<300)
+            .responseData(queue: queue) { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    print(error.localizedDescription)
                 }
             }
         return request

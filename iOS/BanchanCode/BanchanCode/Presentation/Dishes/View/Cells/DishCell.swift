@@ -25,20 +25,26 @@ class DishCell: UICollectionViewCell {
         thumbnailImageView.layer.cornerRadius = 5.0
     }
     
-    func fill(with viewModel: DishesItemViewModel) {
+    func fill(with viewModel: DishesItemViewModel, dishImageRepository: DishImagesRepository?) {
         let dish = viewModel.dish
         nameLabel.text = dish.title
         descriptionLabel.text = dish.description
-        
         lastPriceLabel.text = dish.lastPrice
-        if let originalPrice = dish.originalPrice {
+        configureOriginalPriceLabel(dish.originalPrice)
+        configureBadgeStackView(dish.badges)
+        updateThumbnailImage(imagePath: viewModel.dish.imageURL, repository: dishImageRepository)
+    }
+    
+    private func configureOriginalPriceLabel(_ origialPrice: String?) {
+        if let originalPrice = origialPrice {
             originalPriceLabel.attributedText = originalPrice.strikethrough()
             originalPriceLabel.isHidden = false
         } else {
             originalPriceLabel.isHidden = true
         }
-        
-        let badges = dish.badges
+    }
+    
+    private func configureBadgeStackView(_ badges: [String]?) {
         badgeStackView.arrangedSubviews.forEach { subview in
             subview.removeFromSuperview()
         }
@@ -46,8 +52,7 @@ class DishCell: UICollectionViewCell {
             badgeStackView.isHidden = false
             badges.forEach { badgeString in
                 let badgeView = BadgeView()
-                badgeView.badgeLabel.text = badgeString
-                badgeView.backgroundColor = badgeString == "이벤트특가" ? #colorLiteral(red: 0.5098039216, green: 0.8274509804, blue: 0.1764705882, alpha: 1) : #colorLiteral(red: 0.5254901961, green: 0.7764705882, blue: 1, alpha: 1)
+                badgeView.fill(with: badgeString)
                 badgeStackView.addArrangedSubview(badgeView)
             }
         } else {
@@ -57,5 +62,14 @@ class DishCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         thumbnailImageView.image = nil
+    }
+    
+    private func updateThumbnailImage(imagePath: String, repository: DishImagesRepository?) {
+        repository?.fetchImage(with: imagePath) { [weak self] result in
+            guard let self = self else { return }
+            if case let .success(data) = result {
+                self.thumbnailImageView.image = UIImage(data: data)
+            }
+        }
     }
 }

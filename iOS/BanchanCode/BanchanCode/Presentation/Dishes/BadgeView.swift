@@ -26,7 +26,7 @@ class BadgeView: UIView {
         commonInit()
     }
     
-    func commonInit() {
+    private func commonInit() {
         self.layer.masksToBounds = true
         self.layer.cornerRadius = 5.0
         self.translatesAutoresizingMaskIntoConstraints = false
@@ -41,5 +41,10 @@ class BadgeView: UIView {
         badgeLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         self.topAnchor.constraint(equalTo: topAnchor).isActive = true
         self.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+    }
+    
+    func fill(with string: String) {
+        badgeLabel.text = string
+        backgroundColor = UIColor(named: string) ?? .lightGray
     }
 }

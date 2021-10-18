@@ -8,12 +8,13 @@
 import UIKit
 
 extension NSAttributedString {
-    func makeBold(_ string: String, within wholeString: String, font: UIFont) -> NSAttributedString {
+    convenience init(boldPart: String, in wholeString: String, fontSize: CGFloat) {
+        let font = UIFont.systemFont(ofSize: fontSize)
         let attributedString = NSMutableAttributedString(string: wholeString,
                                                          attributes: [NSAttributedString.Key.font: font])
         let boldFontAttribute: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: font.pointSize)]
-        let range = (wholeString as NSString).range(of: string)
+        let range = (wholeString as NSString).range(of: boldPart)
         attributedString.addAttributes(boldFontAttribute, range: range)
-        return attributedString
+        self.init(attributedString: attributedString)
     }
 }

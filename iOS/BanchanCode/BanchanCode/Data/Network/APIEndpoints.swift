@@ -8,7 +8,7 @@
 import Foundation
 
 struct APIEndpoints {
-    static func getDishes(path: String) -> Endpoint<DishesResponseDTO> {
+    static func getDishes(of path: String) -> Endpoint<DishesResponseDTO> {
         return Endpoint(path: path,
                         method: .get)
     }
@@ -20,7 +20,6 @@ struct APIEndpoints {
 
     static func getImage(path: String) -> Endpoint<Data> {
         return Endpoint(path: path,
-                        isFullPath: true,
                         method: .get)
     }
 }
