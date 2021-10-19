@@ -2,18 +2,13 @@
 
 반찬 주문 앱 **배민찬** 클론 프로젝트
 
+>코드스쿼드 마스터즈 코스에서 진행했던 팀프로젝트를 과정 종료 후 리팩토링 했습니다.
 
-
-코드스쿼드 마스터즈 코스에서 진행했던 팀프로젝트를 과정 종료 후 리팩토링 했습니다.
-
-- 팀 구성
-
-- - Back-end: 2인 ([정](https://github.com/rla36), [연](https://github.com/kimnayeon0108))
-  - Mobile iOS: 2인 ([쏭](https://github.com/1song2), [잭슨](https://github.com/JacksonPk))
-
-- 개발 기간: 2021.4.19 ~ 2021.4.30 (2주)
-
-- 리팩토링 기간: 2021.10.8 ~ 2021.10.18
+* 팀 구성
+  * Back-end: 2인 ([정](https://github.com/rla36), [연](https://github.com/kimnayeon0108))
+  * Mobile iOS: 2인 ([쏭](https://github.com/1song2), [잭슨](https://github.com/JacksonPk))
+* 개발 기간: 2021.4.19 ~ 2021.4.30 (2주)
+* 리팩토링 기간: 2021.10.8 ~ 2021.10.18
 
 ## 기본 동작
 
@@ -27,11 +22,11 @@
 
 ### 상품 상세 페이지
 
-* 상품 이미지를 페이지처럼 가로로 넘겨 확인할 수 있다.
+* 상품 이미지를 페이지처럼 가로로 넘겨 확인할 수 있다.  
   ![sidedish-detail-paging2](https://user-images.githubusercontent.com/56751259/137716131-0c594e01-e6f3-408d-99eb-3e2fb1214534.gif)
-* 기본 상품 정보와 상품 상세 설명 이미지를 확인할 수 있다. 정보가 많아 스크린 내에서 다 표현이 어려운 경우, 화면을 아래로 스크롤해서 전체 정보를 모두 확인할 수 있다.
+* 기본 상품 정보와 상품 상세 설명 이미지를 확인할 수 있다. 정보가 많아 스크린 내에서 다 표현이 어려운 경우, 화면을 아래로 스크롤해서 전체 정보를 모두 확인할 수 있다.  
   ![sidedish-detail-scroll](https://user-images.githubusercontent.com/56751259/137714651-7ba8fe0d-4966-4444-a6ce-b9739acbee73.gif)
-* 수량 증가, 감소 버튼을 눌러 원하는 주문 수량을 선택할 수 있다.
+* 수량 증가, 감소 버튼을 눌러 원하는 주문 수량을 선택할 수 있다.  
   ![sidedish-detail-quantity](https://user-images.githubusercontent.com/56751259/137715743-b7e9bd4f-023d-489e-881f-8dda023ab1d0.gif)
   * 최소 주문 수량에서는 감소 버튼이 비활성화 된다.
   * 수량에 따라 총 주문 금액이 자동으로 업데이트 된다.
@@ -65,14 +60,13 @@
 [같은 예제 코드](https://github.com/kudoleh/iOS-Clean-Architecture-MVVM)를 참고하여 의존성 주입을 학습하고 프로젝트에 적용해보았다.
 
 * `SceneDelegate`의 `scene(_:willConnectTo:options:)` 메서드에서 루트 뷰컨트롤러를 탐지해 뷰모델, 레포지토리 등을 주입할 수 있도록 해주었다.
-* 기존에 작성해두었던 스토리보드를 활용하기 위해 코드 기반으로 작성된 예제 코드를 응용해 스토리보드를 사용하는 상태에서 의존성 주입을 할 수 있는 방법을 학습하고 적용해주었다.
+* 기존에 작성해두었던 스토리보드를 활용하기 위해 코드 기반으로 작성된 예제 코드를 응용했다. 스토리보드를 사용하는 상태에서 의존성 주입을 할 수 있는 방법을 학습하고 적용해주었다.
 
 ### 4. `reloadSections(_:)`를 활용한 섹션별 데이터 갱신
 
 개인적으로 구현과 트러블 슈팅에 가장 애를 먹은 부분이었다.
 
 * 리팩토링 전
-
   * 컬렉션뷰 전체를 리로드하는 `reloadData()` 대신 `reloadSections(_:)`를 이용해 응답이 온 섹션만 리로드를 하고자 의도했다.
 
     ```swift
@@ -82,7 +76,6 @@
     ```
 
   * 하지만 Invalid update 에러가 발생하며 `reloadSections(_:)`이 아닌 `reloadData()`가 호출되는 문제가 발생함을 확인할 수 있었다.
-
     > [UICollectionView] **Invalid update**: invalid number of items in section 0. 
     > The number of items contained in an existing section after the update (11)
     > must be equal to the number of items contained in that section before the update (0),
@@ -94,9 +87,7 @@
     * 문제는 **세 가지 API**를 각각 **비동기적**으로 요청하고 처리하기 때문에 제일 먼저 온 응답에 대한 리로드 섹션을 시도하는 도중 다른 모델도 변경되며 충돌이 발생할 수 있는 것이다. 
 
 * 리팩토링 과정
-
   * 코드 리뷰어분께 힌트를 받아 API 요청은 비동기적으로 하더라도 그 이후 모델 변경과 뷰 업데이트를 **동기적**으로 처리해 해결하고자 시도했다.
-
     * 뷰컨트롤러에서 시리얼큐를 만들고 그 안에서 동기적으로 모델을 업데이트 하도록 했다.
 
       ```swift
@@ -112,7 +103,6 @@
           }
       }
       ```
-
     * 모델이 변경되면 리로드 섹션을 할 수 있도록 뷰모델을 바인딩한다. 이때 리로드 섹션 작업 역시 `DispatchQueue.main.sync` 블록 안에서 동기적으로 처리한다. 
 
       ```swift
@@ -132,7 +122,6 @@
       ```
 
 * 배운 점
-
   * DispatchQueue를 학습하다 보면 `DispatchQueue.main.sync`는 절대 사용해선 안된다는 글이 종종 보인다. 잘못 사용하는 경우 데드락이 발생할 수 있기 때문에 유의해서 사용해야 하는 것은 맞지만 무조건 쓰면 안되는 건 아니다. 이 경우와 같이 백그라운드 스레드에서 이루어지는 작업들 사이에 순서에 맞게 메인 스레드에서 어떤 작업이 이루어져야 할 때는 `DispatchQueue.main.sync`를 사용해야 한다.
 
 ## 학습 키워드
